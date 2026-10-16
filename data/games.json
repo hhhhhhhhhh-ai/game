@@ -473,5 +473,85 @@
    "emoji": "🚂",
    "bg": "linear-gradient(135deg,#10b981,#064e3b)"
   }
+ },
+ {
+  "id": "donkeykong",
+  "title": "Donkey Kong",
+  "category": "arcade",
+  "tags": [
+   "retro",
+   "plateforme"
+  ],
+  "url": "games/donkeykong/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+   "emoji": "🦍",
+   "bg": "linear-gradient(135deg,#7c2d12,#451a03)"
+  }
+ },
+ {
+  "id": "amongus",
+  "title": "Among Us",
+  "category": "stratégie",
+  "tags": [
+   "survie",
+   "multijoueur"
+  ],
+  "url": "games/amongus/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+   "emoji": "🚀",
+   "bg": "linear-gradient(135deg,#ef4444,#7f1d1d)"
+  }
+ },
+ {
+  "id": "angrybird",
+  "title": "Angry Birds",
+  "category": "skill",
+  "tags": [
+   "physique",
+   "destruction"
+  ],
+  "url": "games/angrybird/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+   "emoji": "🐦",
+   "bg": "linear-gradient(135deg,#dc2626,#991b1b)"
+  }
+ },
+ {
+  "id": "angrybird2",
+  "title": "Angry Birds 2",
+  "category": "skill",
+  "tags": [
+   "physique",
+   "destruction"
+  ],
+  "url": "games/angrybird2/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "👑",
+   "bg": "linear-gradient(135deg,#b91c1c,#7f1d1d)"
+  }
+ },
+ {
+  "id": "agameoffireandice",
+  "title": "A Dance of Fire and Ice",
+  "category": "rythme",
+  "tags": [
+   "musique",
+   "adresse"
+  ],
+  "url": "games/agameoffireandice/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "☯️",
+   "bg": "linear-gradient(135deg,#3b82f6,#ef4444)"
+  }
  }
 ]
