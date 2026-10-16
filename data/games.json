@@ -393,5 +393,21 @@
    "emoji": "🗼",
    "bg": "linear-gradient(135deg,#10b981,#064e3b)"
   }
+ },
+ {
+  "id": "retrobowl",
+  "title": "Retrobowl",
+  "category": "skill",
+  "tags": [
+   "tours",
+   "stratégie"
+  ],
+  "url": "games/retrobowl/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "🏈",
+   "bg": "linear-gradient(135deg,#10b981,#064e3b)"
+  }
  }
 ]
