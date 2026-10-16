@@ -409,5 +409,69 @@
    "emoji": "🏈",
    "bg": "linear-gradient(135deg,#10b981,#064e3b)"
   }
+ },
+ {
+  "id": "snowrider",
+  "title": "Snowrider",
+  "category": "skill",
+  "tags": [
+   "tours",
+   "stratégie"
+  ],
+  "url": "games/snowrider/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "🏂🏾",
+   "bg": "linear-gradient(135deg,#10b981,#064e3b)"
+  }
+ },
+ {
+  "id": "totm",
+  "title": "Totm",
+  "category": "skill",
+  "tags": [
+   "tours",
+   "stratégie"
+  ],
+  "url": "games/totm/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "🏛️",
+   "bg": "linear-gradient(135deg,#10b981,#064e3b)"
+  }
+ },
+ {
+  "id": "drivemad",
+  "title": "DriveMad",
+  "category": "skill",
+  "tags": [
+   "tours",
+   "stratégie"
+  ],
+  "url": "games/drivemad/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "🛻",
+   "bg": "linear-gradient(135deg,#10b981,#064e3b)"
+  }
+ },
+ {
+  "id": "subwaydurfer",
+  "title": "Subway Surfer",
+  "category": "skill",
+  "tags": [
+   "tours",
+   "stratégie"
+  ],
+  "url": "games/subwaysurfer/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "🚂",
+   "bg": "linear-gradient(135deg,#10b981,#064e3b)"
+  }
  }
 ]
