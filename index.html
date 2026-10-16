@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PlayZone – Jeux en ligne gratuits</title>
+  <meta name="description" content="PlayZone : des jeux en ligne gratuits, sans téléchargement, directement dans ton navigateur.">
+  <!-- AdSense : le script est injecté automatiquement par js/ads.js une fois js/config.js rempli -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="./">Play<span>Zone</span></a>
+    <div class="search">
+      <span>🔍</span>
+      <input id="search" type="search" placeholder="Rechercher un jeu…" autocomplete="off">
+    </div>
+    <div class="count" id="count"></div>
+    <button class="burger" id="burger" aria-label="Menu">☰</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="side-title">CATÉGORIES</div>
+      <nav id="cats"></nav>
+      <div class="side-links">
+        <a href="privacy.html">Confidentialité</a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="ad-slot" data-ad="top"></div>
+      <h1 class="section-title"><span id="title-icon">🎮</span> <span id="title-text">Tous les jeux</span> <small id="title-count"></small></h1>
+      <div class="grid" id="grid"></div>
+      <p class="empty" id="empty" hidden>Aucun jeu trouvé 😕</p>
+      <div class="ad-slot" data-ad="bottom"></div>
+      <footer class="footer">© <span id="year"></span> PlayZone · <a href="privacy.html">Politique de confidentialité</a></footer>
+    </main>
+  </div>
+
+  <!-- Lecteur de jeu -->
+  <div class="player" id="player" hidden>
+    <div class="player-bar">
+      <button id="back">← Retour</button>
+      <strong id="player-title"></strong>
+      <button id="fs">⛶ Plein écran</button>
+    </div>
+    <div class="ad-slot" data-ad="player"></div>
+    <iframe id="frame" title="Jeu" allow="fullscreen; gamepad; autoplay" sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-popups"></iframe>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/ads.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

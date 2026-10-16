@@ -1,0 +1,397 @@
+[
+ {
+  "id": "snake",
+  "title": "Snake Classic",
+  "category": "arcade",
+  "tags": [
+   "serpent",
+   "classique"
+  ],
+  "url": "games/snake/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+   "emoji": "🐍",
+   "bg": "linear-gradient(135deg,#16a34a,#065f46)"
+  }
+ },
+ {
+  "id": "2048",
+  "title": "2048",
+  "category": "puzzle",
+  "tags": [
+   "nombres",
+   "tuiles"
+  ],
+  "url": "games/2048/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+   "emoji": "🔢",
+   "bg": "linear-gradient(135deg,#f59e0b,#b45309)"
+  }
+ },
+ {
+  "id": "memory",
+  "title": "Memory Match",
+  "category": "puzzle",
+  "tags": [
+   "cartes",
+   "paires",
+   "mémoire"
+  ],
+  "url": "games/memory/index.html",
+  "popular": false,
+  "new": true,
+  "thumb": {
+   "emoji": "🃏",
+   "bg": "linear-gradient(135deg,#ec4899,#7c3aed)"
+  }
+ },
+ {
+  "id": "tictactoe",
+  "title": "Tic-Tac-Toe vs IA",
+  "category": "board",
+  "tags": [
+   "morpion",
+   "ia"
+  ],
+  "url": "games/tictactoe/index.html",
+  "popular": false,
+  "new": true,
+  "thumb": {
+   "emoji": "❌",
+   "bg": "linear-gradient(135deg,#0ea5e9,#1e3a8a)"
+  }
+ },
+ {
+  "id": "breakout",
+  "title": "Brick Breaker",
+  "category": "arcade",
+  "tags": [
+   "briques",
+   "balle"
+  ],
+  "url": "games/breakout/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "🧱",
+   "bg": "linear-gradient(135deg,#ef4444,#7f1d1d)"
+  }
+ },
+ {
+  "id": "flappy",
+  "title": "Flappy Wings",
+  "category": "arcade",
+  "tags": [
+   "oiseau"
+  ],
+  "url": "games/flappy/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "🐤",
+   "bg": "linear-gradient(135deg,#38bdf8,#0369a1)"
+  }
+ },
+ {
+  "id": "pong",
+  "title": "Neon Pong",
+  "category": "arcade",
+  "tags": [
+   "raquette"
+  ],
+  "url": "games/pong/index.html",
+  "popular": false,
+  "new": true,
+  "thumb": {
+   "emoji": "🏓",
+   "bg": "linear-gradient(135deg,#a855f7,#1e1b4b)"
+  }
+ },
+ {
+  "id": "invaders",
+  "title": "Star Defender",
+  "category": "arcade",
+  "tags": [
+   "espace",
+   "tir"
+  ],
+  "url": "games/invaders/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "👾",
+   "bg": "linear-gradient(135deg,#22c55e,#052e16)"
+  }
+ },
+ {
+  "id": "asteroids",
+  "title": "Rock Blaster",
+  "category": "arcade",
+  "tags": [
+   "espace",
+   "vaisseau"
+  ],
+  "url": "games/asteroids/index.html",
+  "popular": false,
+  "new": true,
+  "thumb": {
+   "emoji": "☄️",
+   "bg": "linear-gradient(135deg,#64748b,#0f172a)"
+  }
+ },
+ {
+  "id": "runner",
+  "title": "Desert Runner",
+  "category": "arcade",
+  "tags": [
+   "course",
+   "saut"
+  ],
+  "url": "games/runner/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "🌵",
+   "bg": "linear-gradient(135deg,#f59e0b,#78350f)"
+  }
+ },
+ {
+  "id": "minesweeper",
+  "title": "Démineur",
+  "category": "puzzle",
+  "tags": [
+   "mines"
+  ],
+  "url": "games/minesweeper/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "💣",
+   "bg": "linear-gradient(135deg,#94a3b8,#334155)"
+  }
+ },
+ {
+  "id": "lightsout",
+  "title": "Lights Out",
+  "category": "puzzle",
+  "tags": [
+   "lumières"
+  ],
+  "url": "games/lightsout/index.html",
+  "popular": false,
+  "new": true,
+  "thumb": {
+   "emoji": "💡",
+   "bg": "linear-gradient(135deg,#facc15,#854d0e)"
+  }
+ },
+ {
+  "id": "slide15",
+  "title": "Taquin 15",
+  "category": "puzzle",
+  "tags": [
+   "coulissant"
+  ],
+  "url": "games/slide15/index.html",
+  "popular": false,
+  "new": true,
+  "thumb": {
+   "emoji": "🔲",
+   "bg": "linear-gradient(135deg,#14b8a6,#134e4a)"
+  }
+ },
+ {
+  "id": "connect4",
+  "title": "Puissance 4",
+  "category": "board",
+  "tags": [
+   "ia",
+   "alignement"
+  ],
+  "url": "games/connect4/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "🔴",
+   "bg": "linear-gradient(135deg,#3b82f6,#1e3a8a)"
+  }
+ },
+ {
+  "id": "blockdrop",
+  "title": "Block Drop",
+  "category": "puzzle",
+  "tags": [
+   "blocs",
+   "lignes"
+  ],
+  "url": "games/blockdrop/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "🟦",
+   "bg": "linear-gradient(135deg,#6366f1,#312e81)"
+  }
+ },
+ {
+  "id": "whack",
+  "title": "Chasse-Taupes",
+  "category": "skill",
+  "tags": [
+   "réflexes"
+  ],
+  "url": "games/whack/index.html",
+  "popular": false,
+  "new": true,
+  "thumb": {
+   "emoji": "🐹",
+   "bg": "linear-gradient(135deg,#a16207,#422006)"
+  }
+ },
+ {
+  "id": "clicker",
+  "title": "Gem Clicker",
+  "category": "skill",
+  "tags": [
+   "idle",
+   "clic"
+  ],
+  "url": "games/clicker/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "💎",
+   "bg": "linear-gradient(135deg,#06b6d4,#164e63)"
+  }
+ },
+ {
+  "id": "reaction",
+  "title": "Test de Réflexes",
+  "category": "skill",
+  "tags": [
+   "temps de réaction"
+  ],
+  "url": "games/reaction/index.html",
+  "popular": false,
+  "new": true,
+  "thumb": {
+   "emoji": "⚡",
+   "bg": "linear-gradient(135deg,#ef4444,#22c55e)"
+  }
+ },
+ {
+  "id": "stack",
+  "title": "Stack Tower",
+  "category": "skill",
+  "tags": [
+   "tour",
+   "empiler"
+  ],
+  "url": "games/stack/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "🏗️",
+   "bg": "linear-gradient(135deg,#f472b6,#831843)"
+  }
+ },
+ {
+  "id": "skyhop",
+  "title": "Sky Hop",
+  "category": "arcade",
+  "tags": [
+   "saut",
+   "plateformes"
+  ],
+  "url": "games/skyhop/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "🦘",
+   "bg": "linear-gradient(135deg,#84cc16,#14532d)"
+  }
+ },
+ {
+  "id": "lowpoly",
+  "title": "Low Poly Racer",
+  "category": "racing",
+  "tags": [
+   "course",
+   "3d",
+   "low poly"
+  ],
+  "url": "games/lowpoly/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "🏎️",
+   "bg": "linear-gradient(135deg,#fb923c,#7c2d12)"
+  }
+ },
+ {
+  "id": "haunted",
+  "title": "Évasion Maison Hantée",
+  "category": "adventure",
+  "tags": [
+   "horreur",
+   "fantôme",
+   "évasion"
+  ],
+  "url": "games/haunted/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "👻",
+   "bg": "linear-gradient(135deg,#4c1d95,#020617)"
+  }
+ },
+ {
+  "id": "hangman",
+  "title": "Pendu",
+  "category": "board",
+  "tags": [
+   "mots"
+  ],
+  "url": "games/hangman/index.html",
+  "popular": false,
+  "new": true,
+  "thumb": {
+   "emoji": "🔤",
+   "bg": "linear-gradient(135deg,#78716c,#292524)"
+  }
+ },
+ {
+  "id": "motsecret",
+  "title": "Mot Secret",
+  "category": "puzzle",
+  "tags": [
+   "mots",
+   "devinette"
+  ],
+  "url": "games/motsecret/index.html",
+  "popular": true,
+  "new": true,
+  "thumb": {
+   "emoji": "📝",
+   "bg": "linear-gradient(135deg,#22c55e,#a16207)"
+  }
+ },
+ {
+  "id": "towerdef",
+  "title": "Mini Tower Defense",
+  "category": "skill",
+  "tags": [
+   "tours",
+   "stratégie"
+  ],
+  "url": "games/towerdef/index.html",
+  "popular": false,
+  "new": true,
+  "thumb": {
+   "emoji": "🗼",
+   "bg": "linear-gradient(135deg,#10b981,#064e3b)"
+  }
+ }
+]
