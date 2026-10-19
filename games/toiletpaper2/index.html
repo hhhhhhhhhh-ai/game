@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>TOILET ESCAPE — Roll Down!</title>
+<style>
+  html,body{margin:0;height:100%;background:#0d1015;overflow:hidden;
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;-webkit-user-select:none;user-select:none;}
+  #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;}
+  #game{background:#f4f6fa;border-radius:8px;box-shadow:0 10px 70px rgba(0,0,0,.65);touch-action:none;}
+  .overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:#fff;text-align:center;background:rgba(8,10,16,.55);backdrop-filter:blur(5px);z-index:5;padding:20px;}
+  .overlay.hidden{display:none;}
+  h1{font-size:min(9vw,64px);margin:0 0 6px;letter-spacing:2px;
+    background:linear-gradient(90deg,#ff2d78,#ff8a3d);-webkit-background-clip:text;background-clip:text;color:transparent;
+    text-shadow:0 4px 30px rgba(255,45,120,.35);}
+  h2{font-size:min(7vw,44px);margin:0 0 10px;color:#ff2d55;letter-spacing:1px;}
+  p{max-width:520px;line-height:1.5;color:#cfd5e0;margin:6px 0;}
+  .key{display:inline-block;background:#232833;border:1px solid #3a4150;border-bottom-width:3px;border-radius:6px;
+    padding:2px 9px;margin:0 2px;font-weight:700;color:#fff;font-size:14px;}
+  button{margin-top:22px;font-size:20px;font-weight:800;letter-spacing:1px;color:#fff;background:linear-gradient(180deg,#ff3d86,#e01860);
+    border:none;border-radius:40px;padding:14px 46px;cursor:pointer;box-shadow:0 6px 24px rgba(255,45,120,.45);transition:transform .12s;}
+  button:hover{transform:scale(1.06);}
+  button:active{transform:scale(.97);}
+  #hud{position:absolute;top:10px;left:0;right:0;display:flex;justify-content:space-between;padding:0 18px;
+    pointer-events:none;z-index:4;font-weight:800;letter-spacing:1px;color:#5b6472;text-shadow:0 1px 0 #fff;}
+  #floor{color:#ff2d78;}
+  /* touch controls */
+  .tbtn{position:absolute;bottom:18px;width:86px;height:86px;border-radius:50%;background:rgba(40,46,60,.35);
+    border:2px solid rgba(255,255,255,.25);z-index:6;display:none;align-items:center;justify-content:center;
+    font-size:34px;color:#fff;touch-action:none;}
+  #tL{left:22px;} #tR{left:128px;} #tJ{right:22px;}
+  @media (pointer:coarse){ .tbtn{display:flex;} }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="game"></canvas>
+  <div id="hud"><span>TOILET&nbsp;ESCAPE</span><span id="floor">FLOOR 0</span></div>
+
+  <div class="tbtn" id="tL">◀</div>
+  <div class="tbtn" id="tR">▶</div>
+  <div class="tbtn" id="tJ">▲</div>
+
+  <div class="overlay" id="menu">
+    <h1>TOILET ESCAPE</h1>
+    <p>You are a runaway toilet roll. Bounce down the office shelves, dodge the
+       spike-balls, and don't get caught by <b>THE BOSS</b>.<br>(You will get caught by the boss.)</p>
+    <p><span class="key">←</span><span class="key">→</span> / <span class="key">A</span><span class="key">D</span> steer &nbsp;·&nbsp;
+       <span class="key">Space</span> / <span class="key">↑</span> hop</p>
+    <button id="startBtn">START ROLLING</button>
+  </div>
+
+  <div class="overlay hidden" id="dead">
+    <h2>POP! 💀</h2>
+    <p>A spike-ball shredded you mid-roll.<br>The boss didn't even have to try.</p>
+    <p id="deadStat"></p>
+    <button id="retryBtn">TRY AGAIN</button>
+  </div>
+
+  <div class="overlay hidden" id="winPanel">
+    <h2 style="color:#fff;text-shadow:0 0 24px #ff2d78;">GET YOU!!</h2>
+    <p>The boss secured the goods. Paper everywhere. Dignity nowhere.</p>
+    <p id="winStat"></p>
+    <button id="againBtn">ROLL AGAIN</button>
+  </div>
+</div>
+
+<script>
+(()=>{
+"use strict";
+/* ================= SETUP ================= */
+const VW=960, VH=540;
+const cv=document.getElementById('game'), ctx=cv.getContext('2d');
+let DPR=1;
+function fit(){
+  DPR=Math.min(window.devicePixelRatio||1,2);
+  const s=Math.min(innerWidth/VW, innerHeight/VH)*0.98;
+  cv.style.width=(VW*s)+'px'; cv.style.height=(VH*s)+'px';
+  cv.width=VW*DPR; cv.height=VH*DPR;
+}
+addEventListener('resize',fit); fit();
+
+/* ================= AUDIO ================= */
+let AC=null;
+function audio(){ if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}} if(AC&&AC.state==='suspended')AC.resume(); }
+function beep(f,d,type='sine',v=.15,slide=0){
+  if(!AC)return; const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();
+  o.type=type;o.frequency.setValueAtTime(f,t);
+  if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,f+slide),t+d);
+  g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g).connect(AC.destination);o.start(t);o.stop(t+d);
+}
+function noise(d,v){ if(!AC)return; const n=AC.sampleRate*d,b=AC.createBuffer(1,n,AC.sampleRate),ch=b.getChannelData(0);
+  for(let i=0;i<n;i++)ch[i]=(Math.random()*2-1)*(1-i/n);
+  const s=AC.createBufferSource(),g=AC.createGain();g.gain.value=v;s.buffer=b;s.connect(g).connect(AC.destination);s.start(); }
+const sBounce=p=>beep(180+p*220,.09,'triangle',.12);
+const sJump=()=>beep(300,.12,'square',.08,200);
+const sDeath=()=>{noise(.3,.3);beep(120,.4,'sawtooth',.2,-80);};
+const sWin=()=>{[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.18,'square',.12),i*110));};
+
+/* ================= CONSTANTS ================= */
+const G=0.5, ACC=0.55, MAXVX=6.2, REST=0.62, R=15;
+const WORLD_W=VW, ROWS=14, ROW_H=150, TOP_Y=120;
+const GOAL_Y=TOP_Y+ROWS*ROW_H+120;
+
+/* ================= STATE ================= */
+let state='menu', player, shelves, enemies, decos, camY, shake, t, floorsPassed, cutT, confetti, shreds;
+const keys={l:false,r:false,j:false};
+
+function rnd(a,b){return a+Math.random()*(b-a);}
+
+function buildLevel(){
+  shelves=[];enemies=[];decos=[];confetti=[];shreds=[];
+  // top ceiling shelf
+  shelves.push({x:60,y:TOP_Y-60,w:WORLD_W-120});
+  let lastSide=0;
+  for(let i=0;i<ROWS;i++){
+    const y=TOP_Y+i*ROW_H;
+    const gap=rnd(180,260);                 // hole the ball falls through
+    const side=(i%2===0)?1:-1;              // alternate which side the long shelf is on
+    const gx=rnd(120,WORLD_W-120-gap);
+    // left shelf
+    if(gx-40>60) shelves.push({x:40,y:y,w:gx-40});
+    // right shelf
+    if(gx+gap+40<WORLD_W-60) shelves.push({x:gx+gap,y:y,w:WORLD_W-60-(gx+gap)});
+    // enemies on some shelves (skip first two rows)
+    if(i>1&&Math.random()<.62){
+      const list=[shelves[shelves.length-1]];
+      if(Math.random()<.4&&shelves.length>1)list.push(shelves[shelves.length-2]);
+      const sh=list[Math.floor(Math.random()*list.length)];
+      if(sh.w>120)enemies.push({x:sh.x+sh.w/2,y:sh.y-R-4,dir:Math.random()<.5?-1:1,
+        spd:rnd(1.1,2.0),rot:rnd(0,6),shelf:sh,bob:rnd(0,6)});
+    }
+    // decor
+    if(i%3===0)decos.push({type:'sconce',x:side>0?26:WORLD_W-26,y:y-70,flip:side>0});
+    if(i%4===1)decos.push({type:'chand',x:rnd(200,WORLD_W-200),y:y+26});
+    if(i%3===2)decos.push({type:'win',x:side>0?30:WORLD_W-30,y:y+40,a:rnd(-.4,.4)});
+  }
+  player={x:WORLD_W/2,y:TOP_Y-90,px:0,py:0,vx:0,vy:0,grounded:false,rot:0,trail:[]};
+  camY=player.y-VH*0.42; shake=0; floorsPassed=0; t=0; cutT=0;
+}
+
+/* ================= INPUT ================= */
+addEventListener('keydown',e=>{
+  audio();
+  if(['ArrowLeft','a','A'].includes(e.key))keys.l=true;
+  if(['ArrowRight','d','D'].includes(e.key))keys.r=true;
+  if([' ','ArrowUp','w','W'].includes(e.key)){keys.j=true;e.preventDefault();}
+});
+addEventListener('keyup',e=>{
+  if(['ArrowLeft','a','A'].includes(e.key))keys.l=false;
+  if(['ArrowRight','d','D'].includes(e.key))keys.r=false;
+  if([' ','ArrowUp','w','W'].includes(e.key))keys.j=false;
+});
+function bindTouch(id,k){const el=document.getElementById(id);
+  const on=e=>{e.preventDefault();audio();keys[k]=true;},off=e=>{e.preventDefault();keys[k]=false;};
+  el.addEventListener('pointerdown',on);el.addEventListener('pointerup',off);
+  el.addEventListener('pointercancel',off);el.addEventListener('pointerleave',off);}
+bindTouch('tL','l');bindTouch('tR','r');bindTouch('tJ','j');
+
+/* ================= PHYSICS ================= */
+function collideShadows(ent){ // one-way platform landing
+  ent.grounded=false;
+  for(const s of shelves){
+    if(ent.vy>=0 && ent.py+R<=s.y+1 && ent.y+R>=s.y && ent.x>s.x-R*0.5 && ent.x<s.x+s.w+R*0.5){
+      ent.y=s.y-R;
+      if(Math.abs(ent.vy)>2.2){ent.vy=-ent.vy*REST;if(ent===player)sBounce(Math.min(1,Math.abs(ent.vy)/12));}
+      else {ent.vy=0;ent.grounded=true;}
+    }
+  }
+}
+function stepPlayer(){
+  const p=player;
+  p.px=p.x;p.py=p.y;
+  if(keys.l)p.vx-=ACC; if(keys.r)p.vx+=ACC;
+  p.vx=Math.max(-MAXVX,Math.min(MAXVX,p.vx));
+  if(keys.j&&p.grounded){p.vy=-9.5;p.grounded=false;sJump();}
+  p.vy+=G; p.x+=p.vx; p.y+=p.vy;
+  p.rot+=p.vx*0.06;
+  // walls
+  if(p.x<R+14){p.x=R+14;p.vx=Math.abs(p.vx)*REST;}
+  if(p.x>WORLD_W-R-14){p.x=WORLD_W-R-14;p.vx=-Math.abs(p.vx)*REST;}
+  collideShadows(p);
+  // trail
+  p.trail.unshift({x:p.x,y:p.y}); if(p.trail.length>7)p.trail.pop();
+  // floor counter
+  floorsPassed=Math.max(floorsPassed,Math.min(ROWS,Math.floor((p.y-TOP_Y)/ROW_H)+1));
+  // enemies
+  for(const e of enemies){
+    const near=Math.abs(e.y-p.y)<70 && Math.abs(e.x-p.x)<340;
+    if(near)e.dir=Math.sign(p.x-e.x)||e.dir;
+    e.x+=e.dir*e.spd;
+    if(e.x<e.shelf.x+R){e.x=e.shelf.x+R;e.dir=1;}
+    if(e.x>e.shelf.x+e.shelf.w-R){e.x=e.shelf.x+e.shelf.w-R;e.dir=-1;}
+    e.rot+=0.05; e.bob+=0.12;
+    if(Math.hypot(e.x-p.x,e.y-p.y)<R*1.75) die();
+  }
+  if(p.y>=GOAL_Y) startWin();
+}
+
+function die(){
+  state='dead'; sDeath(); shake=14;
+  for(let i=0;i<40;i++)shreds.push({x:player.x,y:player.y,vx:rnd(-6,6),vy:rnd(-8,2),
+    r:rnd(0,6),s:rnd(3,7),life:1});
+  setTimeout(()=>{document.getElementById('deadStat').textContent='You reached floor '+floorsPassed+'.';
+    document.getElementById('dead').classList.remove('hidden');},700);
+}
+function startWin(){ state='win'; cutT=0; sWin(); }
+
+/* ================= DRAW HELPERS ================= */
+function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+
+function drawShelf(s){
+  ctx.fillStyle='#aeb6c4'; roundRect(s.x,s.y,s.w,16,4); ctx.fill();
+  ctx.fillStyle='#d9dee7'; ctx.fillRect(s.x+3,s.y+2,s.w-6,4);
+  ctx.fillStyle='#ff2d78'; ctx.fillRect(s.x+s.w-7,s.y,7,16);           // pink end-cap
+  ctx.fillStyle='rgba(0,0,0,.12)'; ctx.fillRect(s.x,s.y+16,s.w,3);
+}
+function drawSconce(d){
+  ctx.save();ctx.translate(d.x,d.y);if(d.flip)ctx.scale(-1,1);
+  ctx.strokeStyle='#8b93a3';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(26,0);ctx.stroke();
+  for(const bx of [26,52]){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(bx,8,9,0,7);ctx.fill();
+    ctx.fillStyle='rgba(255,220,120,.5)';ctx.beginPath();ctx.arc(bx,8,15,0,7);ctx.fill();}
+  ctx.restore();
+}
+function drawChand(d){
+  ctx.strokeStyle='#9aa2b1';ctx.lineWidth=4;
+  ctx.beginPath();ctx.moveTo(d.x-46,d.y);ctx.quadraticCurveTo(d.x,d.y+16,d.x+46,d.y);ctx.stroke();
+  for(const ox of[-30,0,30]){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(d.x+ox,d.y+14,7,0,7);ctx.fill();
+    ctx.fillStyle='rgba(255,220,120,.45)';ctx.beginPath();ctx.arc(d.x+ox,d.y+14,12,0,7);ctx.fill();}
+}
+function drawWin(d){
+  ctx.save();ctx.translate(d.x,d.y);ctx.rotate(d.a);
+  ctx.fillStyle='#2a2f3a';ctx.strokeStyle='#ff2d55';ctx.lineWidth=5;
+  roundRect(-14,-40,28,80,4);ctx.fill();ctx.stroke();ctx.restore();
+}
+function drawRoll(x,y,rot,speed){
+  if(speed>2.5){ // cyan motion crescent
+    ctx.save();ctx.translate(x,y);ctx.rotate(Math.atan2(0,1));
+    const g=ctx.createLinearGradient(-speed*4,0,0,0);
+    g.addColorStop(0,'rgba(0,220,255,0)');g.addColorStop(1,'rgba(0,220,255,.8)');
+    ctx.strokeStyle=g;ctx.lineWidth=R*1.7;ctx.lineCap='round';
+    ctx.beginPath();ctx.arc(0,0,R*.9,Math.PI*.6,Math.PI*1.4);ctx.stroke();ctx.restore();
+  }
+  ctx.save();ctx.translate(x,y);ctx.rotate(rot);
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,R,0,7);ctx.fill();
+  ctx.strokeStyle='#e2e6ee';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,R-1,0,7);ctx.stroke();
+  ctx.fillStyle='#b07a3c';ctx.beginPath();ctx.arc(0,0,R*.42,0,7);ctx.fill();
+  ctx.fillStyle='#7a4d1e';ctx.beginPath();ctx.arc(0,0,R*.2,0,7);ctx.fill();
+  ctx.restore();
+}
+function drawSpike(e){
+  const y=e.y+Math.sin(e.bob)*2;
+  ctx.save();ctx.translate(e.x,y);ctx.rotate(e.rot);
+  for(let i=0;i<12;i++){const a=i/12*Math.PI*2;
+    ctx.fillStyle=i%2?'#ff2d55':'#3a3f4c';
+    ctx.beginPath();ctx.moveTo(Math.cos(a)*R*.8,Math.sin(a)*R*.8);
+    ctx.lineTo(Math.cos(a+.18)*(R+9),Math.sin(a+.18)*(R+9));
+    ctx.lineTo(Math.cos(a-.18)*(R+9),Math.sin(a-.18)*(R+9));ctx.closePath();ctx.fill();}
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,R*.85,0,7);ctx.fill();
+  ctx.fillStyle='#b07a3c';ctx.beginPath();ctx.arc(0,0,R*.4,0,7);ctx.fill();
+  ctx.restore();
+}
+function drawBath(){
+  const gy=GOAL_Y;
+  // tiled wall
+  ctx.fillStyle='#8d949f';ctx.fillRect(0,gy-260,WORLD_W,260+80);
+  ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=2;
+  for(let yy=gy-260;yy<gy+80;yy+=26){ctx.beginPath();ctx.moveTo(0,yy);ctx.lineTo(WORLD_W,yy);ctx.stroke();}
+  for(let yy=gy-260,row=0;yy<gy+80;yy+=26,row++){
+    for(let xx=(row%2?0:40);xx<WORLD_W;xx+=80){ctx.beginPath();ctx.moveTo(xx,yy);ctx.lineTo(xx,yy+26);ctx.stroke();}}
+  // stall partition
+  ctx.fillStyle='#e8ebf0';ctx.fillRect(40,gy-230,26,230);
+  ctx.fillStyle='#c3c9d4';ctx.fillRect(40,gy-230,26,8);
+  // holder + spare roll
+  ctx.fillStyle='#cfd6e0';ctx.fillRect(640,gy-210,90,8);ctx.fillRect(640,gy-210,8,40);
+  drawRoll(700,gy-186,0,0);
+  // floor
+  ctx.fillStyle='#6f7681';ctx.fillRect(0,gy,WORLD_W,VH);
+  // THE BOSS
+  drawBoss(480,gy);
+}
+function drawBoss(x,groundY,armT=0){
+  ctx.save();ctx.translate(x,groundY);
+  // legs/body
+  ctx.fillStyle='#2749d6';
+  ctx.beginPath();ctx.moveTo(-34,0);ctx.lineTo(-26,-120);ctx.lineTo(26,-120);ctx.lineTo(34,0);ctx.closePath();ctx.fill();
+  // shirt + tie
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(-10,-118);ctx.lineTo(10,-118);ctx.lineTo(0,-70);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#e02020';ctx.beginPath();ctx.moveTo(-4,-114);ctx.lineTo(4,-114);ctx.lineTo(0,-78);ctx.closePath();ctx.fill();
+  // head
+  ctx.fillStyle='#ffd23f';ctx.beginPath();ctx.arc(0,-142,26,0,7);ctx.fill();
+  ctx.fillStyle='#1b1f2a';ctx.beginPath();ctx.arc(0,-150,26,Math.PI*1.05,Math.PI*1.95);ctx.fill();
+  ctx.fillRect(-26,-152,10,10);
+  // open yelling mouth
+  ctx.fillStyle='#7a1020';ctx.beginPath();ctx.ellipse(4,-132,8,11,0,0,7);ctx.fill();
+  ctx.fillStyle='#ff6b6b';ctx.beginPath();ctx.ellipse(4,-127,5,5,0,0,7);ctx.fill();
+  // eye
+  ctx.fillStyle='#1b1f2a';ctx.beginPath();ctx.arc(8,-148,3,0,7);ctx.fill();
+  // raising arm
+  const a=-0.4-armT*1.9;
+  ctx.save();ctx.translate(20,-112);ctx.rotate(a);
+  ctx.fillStyle='#2749d6';roundRect(-8,-6,58,16,8);ctx.fill();
+  ctx.fillStyle='#ffd23f';ctx.beginPath();ctx.arc(54,2,9,0,7);ctx.fill();
+  ctx.restore();
+  ctx.restore();
+}
+
+/* ================= RENDER ================= */
+function render(){
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  ctx.clearRect(0,0,VW,VH);
+  // bg
+  const bg=ctx.createLinearGradient(0,0,0,VH);
+  bg.addColorStop(0,'#fbfcfe');bg.addColorStop(1,'#eef1f6');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,VW,VH);
+  // side walls
+  ctx.fillStyle='#e3e7ee';ctx.fillRect(0,0,14,VH);ctx.fillRect(WORLD_W-14,0,14,VH);
+
+  ctx.save();
+  const sx=shake>0?rnd(-shake,shake):0, sy=shake>0?rnd(-shake,shake):0;
+  ctx.translate(sx,-camY+sy);
+
+  for(const d of decos){
+    if(d.y<camY-120||d.y>camY+VH+120)continue;
+    if(d.type==='sconce')drawSconce(d);
+    else if(d.type==='chand')drawChand(d);
+    else drawWin(d);
+  }
+  for(const s of shelves){
+    if(s.y<camY-60||s.y>camY+VH+60)continue;
+    drawShelf(s);
+  }
+  // bathroom zone
+  if(camY+VH>GOAL_Y-300){
+    drawBath();
+    if(state==='win'){
+      const ct=cutT;
+      const armT=Math.min(1,Math.max(0,(ct-.3)/.5));
+      // re-draw boss with raised arm
+      ctx.save();ctx.translate(0,0);drawBoss(480,GOAL_Y,armT);ctx.restore();
+      // ball flies to hand during 0..0.5
+      if(ct<0.55){
+        const k=ct/0.55, ex=player.x+(520-player.x)*k, ey=player.y+(GOAL_Y-235-player.y)*k-Math.sin(k*Math.PI)*60;
+        drawRoll(ex,ey,player.rot+k*8,6);
+      } else {
+        drawRoll(520,GOAL_Y-238,0,0); // in his hand
+      }
+      if(ct>0.8){ // GET YOU!! text
+        const k=Math.min(1,(ct-0.8)/0.25), sc=1+Math.sin(k*Math.PI)*0.35;
+        ctx.save();ctx.translate(480,GOAL_Y-330);ctx.scale(sc,sc);
+        ctx.font='900 64px Segoe UI, sans-serif';ctx.textAlign='center';
+        ctx.fillStyle='#fff';ctx.shadowColor='rgba(0,0,0,.4)';ctx.shadowBlur=12;
+        ctx.fillText('GET YOU!!',0,0);ctx.restore();
+      }
+      // confetti paper
+      for(const c of confetti){ctx.save();ctx.translate(c.x,c.y);ctx.rotate(c.r);
+        ctx.fillStyle='rgba(255,255,255,.95)';ctx.fillRect(-c.s/2,-c.s/2,c.s,c.s*0.6);ctx.restore();}
+    }
+  }
+
+  if(state!=='win'||cutT<0.55){
+    for(const e of enemies){
+      if(e.y<camY-60||e.y>camY+VH+60)continue;
+      drawSpike(e);
+    }
+    if(state!=='dead')drawRoll(player.x,player.y,player.rot,Math.hypot(player.vx,player.vy));
+  }
+  // shreds
+  for(const s of shreds){ctx.save();ctx.translate(s.x,s.y);ctx.rotate(s.r);
+    ctx.globalAlpha=Math.max(0,s.life);ctx.fillStyle='#fff';ctx.fillRect(-s.s/2,-s.s/2,s.s,s.s*.6);ctx.restore();}
+  ctx.restore();
+
+  document.getElementById('floor').textContent='FLOOR '+floorsPassed;
+}
+
+/* ================= LOOP ================= */
+let last=0,acc=0;
+function loop(ts){
+  requestAnimationFrame(loop);
+  const dt=Math.min(.05,(ts-last)/1000||0);last=ts;acc+=dt;t+=dt;
+  const STEP=1/60;
+  while(acc>=STEP){
+    acc-=STEP;
+    if(state==='play'){stepPlayer();}
+    else if(state==='win'){
+      cutT+=STEP;
+      if(cutT>0.8&&confetti.length<160&&Math.random()<.6)
+        confetti.push({x:rnd(300,700),y:GOAL_Y-340,vx:rnd(-2,2),vy:rnd(-4,-1),r:rnd(0,6),vr:rnd(-.2,.2),s:rnd(6,12)});
+      for(const c of confetti){c.x+=c.vx;c.y+=c.vy;c.vy+=.12;c.r+=c.vr;}
+      if(cutT>2.8&&!document.getElementById('winPanel').classList.contains('shown')){
+        document.getElementById('winPanel').classList.remove('hidden');
+        document.getElementById('winPanel').classList.add('shown');
+        document.getElementById('winStat').textContent='Floors survived: '+ROWS+' · The boss says thanks.';
+      }
+    }
+    for(const s of shreds){s.x+=s.vx;s.y+=s.vy;s.vy+=.3;s.r+=.2;s.life-=.02;}
+    if(shake>0)shake*=.86;
+  }
+  render();
+}
+
+/* ================= FLOW ================= */
+function start(){
+  audio();buildLevel();state='play';
+  document.getElementById('menu').classList.add('hidden');
+  document.getElementById('dead').classList.add('hidden');
+  const wp=document.getElementById('winPanel');wp.classList.add('hidden');wp.classList.remove('shown');
+}
+document.getElementById('startBtn').onclick=start;
+document.getElementById('retryBtn').onclick=start;
+document.getElementById('againBtn').onclick=start;
+
+buildLevel();           // so the menu has a live backdrop
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
