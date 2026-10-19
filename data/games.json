@@ -761,5 +761,18 @@
     "emoji": "🎮",
     "bg": "linear-gradient(135deg,#ec4899,#8b5cf6)"
   }
+ },
+ {
+  "id": "toiletpaper",
+  "title": "Toilet Paper",
+  "category": "arcade",
+  "tags": [ "adresse", "clic", "humour" ],
+  "url": "games/toiletpaper/index.html",
+  "popular": false,
+  "new": false,
+  "thumb": {
+    "emoji": "🧻",
+    "bg": "linear-gradient(135deg,#f3f4f6,#9ca3af)"
+  }
  }
 ]
