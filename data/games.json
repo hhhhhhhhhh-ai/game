@@ -774,5 +774,18 @@
     "emoji": "🧻",
     "bg": "linear-gradient(135deg,#f3f4f6,#9ca3af)"
   }
+ },
+ {
+  "id": "toiletpaper2",
+  "title": "Toilet Paper 2",
+  "category": "arcade",
+  "tags": [ "adresse", "clic", "humour" ],
+  "url": "games/toiletpaper2/index.html",
+  "popular": false,
+  "new": true,
+  "thumb": {
+    "emoji": "🧻",
+    "bg": "linear-gradient(135deg,#e5e7eb,#6b7280)"
+  }
  }
 ]
