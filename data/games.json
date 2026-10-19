@@ -553,5 +553,213 @@
    "emoji": "☯️",
    "bg": "linear-gradient(135deg,#3b82f6,#ef4444)"
   }
+ }, 
+ {
+  "id": "motox3mspookyland",
+  "title": "Moto X3M Spooky Land",
+  "category": "moto",
+  "tags": [ "course", "adresse", "halloween" ],
+  "url": "games/motox3mspookyland/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+    "emoji": "🎃",
+    "bg": "linear-gradient(135deg,#f97316,#7c3aed)"
+  }
+ }, 
+ {
+  "id": "btts",
+  "title": "Big Tower Tiny Square",
+  "category": "plateforme",
+  "tags": [ "adresse", "retro", "precision" ],
+  "url": "games/btts/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+    "emoji": "🗼",
+    "bg": "linear-gradient(135deg,#ef4444,#3b82f6)"
+  }
+ }, 
+ {
+  "id": "rooftopsnipers",
+  "title": "Rooftop Snipers",
+  "category": "tir",
+  "tags": [ "2-joueurs", "action", "physique" ],
+  "url": "games/rooftopsnipers/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+    "emoji": "🔫",
+    "bg": "linear-gradient(135deg,#6b7280,#111827)"
+  }
+ },
+ {
+  "id": "motox3mm",
+  "title": "Moto X3M",
+  "category": "moto",
+  "tags": [ "course", "adresse", "cascade" ],
+  "url": "games/motox3mm/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+    "emoji": "🏍️",
+    "bg": "linear-gradient(135deg,#f59e0b,#ef4444)"
+  }
+ },
+ {
+  "id": "motox3mpoolparty",
+  "title": "Moto X3M Pool Party",
+  "category": "moto",
+  "tags": [ "course", "adresse", "ete" ],
+  "url": "games/motox3mpoolparty/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+    "emoji": "🦩",
+    "bg": "linear-gradient(135deg,#06b6d4,#ec4899)"
+  }
+ },
+ {
+  "id": "bigflappytowertinysquare",
+  "title": "Big Flappy Tower Tiny Square",
+  "category": "plateforme",
+  "tags": [ "adresse", "retro", "vol" ],
+  "url": "games/bigflappytowertinysquare/index.html",
+  "popular": false,
+  "new": false,
+  "thumb": {
+    "emoji": "🐦",
+    "bg": "linear-gradient(135deg,#10b981,#f59e0b)"
+  }
+ },
+ {
+  "id": "motox3mwinter",
+  "title": "Moto X3M Winter",
+  "category": "moto",
+  "tags": [ "course", "adresse", "hiver" ],
+  "url": "games/motox3mwinter/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+    "emoji": "❄️",
+    "bg": "linear-gradient(135deg,#3b82f6,#93c5fd)"
+  }
+ },
+ {
+  "id": "agariolite",
+  "title": "Agario Lite",
+  "category": "io",
+  "tags": [ "multijoueur", "survie", "arcade" ],
+  "url": "games/agariolite/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+    "emoji": "🟢",
+    "bg": "linear-gradient(135deg,#10b981,#6366f1)"
+  }
+ },
+ {
+  "id": "motox3m3",
+  "title": "Moto X3M 3",
+  "category": "moto",
+  "tags": [ "course", "adresse", "cascade" ],
+  "url": "games/motox3m3/index.html",
+  "popular": false,
+  "new": false,
+  "thumb": {
+    "emoji": "🏁",
+    "bg": "linear-gradient(135deg,#f59e0b,#10b981)"
+  }
+ },
+ {
+  "id": "bigneontowertinysquare",
+  "title": "Big Neon Tower Tiny Square",
+  "category": "plateforme",
+  "tags": [ "adresse", "retro", "neon" ],
+  "url": "games/bigneontowertinysquare/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+    "emoji": "⚡",
+    "bg": "linear-gradient(135deg,#d946ef,#06b6d4)"
+  }
+ },
+ {
+  "id": "asmallworldcup",
+  "title": "A Small World Cup",
+  "category": "sports",
+  "tags": [ "football", "2-joueurs", "physique" ],
+  "url": "games/asmallworldcup/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+    "emoji": "🏆",
+    "bg": "linear-gradient(135deg,#f59e0b,#10b981)"
+  }
+ },
+ {
+  "id": "basketrandom",
+  "title": "Basket Random",
+  "category": "sports",
+  "tags": [ "basketball", "2-joueurs", "physique" ],
+  "url": "games/basketrandom/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+    "emoji": "🏀",
+    "bg": "linear-gradient(135deg,#f97316,#ef4444)"
+  }
+ },
+ {
+  "id": "motox3m2",
+  "title": "Moto X3M 2",
+  "category": "moto",
+  "tags": [ "course", "adresse", "cascade" ],
+  "url": "games/motox3m2/index.html",
+  "popular": false,
+  "new": false,
+  "thumb": {
+    "emoji": "🏍️",
+    "bg": "linear-gradient(135deg,#ef4444,#6366f1)"
+  }
+ },
+ {
+  "id": "bigicetowertinysquare",
+  "title": "Big Ice Tower Tiny Square",
+  "category": "plateforme",
+  "tags": [ "adresse", "retro", "glace" ],
+  "url": "games/bigicetowertinysquare/index.html",
+  "popular": false,
+  "new": false,
+  "thumb": {
+    "emoji": "🧊",
+    "bg": "linear-gradient(135deg,#60a5fa,#e0f2fe)"
+  }
+ },
+ {
+  "id": "btts2",
+  "title": "Big Tower Tiny Square 2",
+  "category": "plateforme",
+  "tags": [ "adresse", "retro", "precision" ],
+  "url": "games/btts2/index.html",
+  "popular": false,
+  "new": true,
+  "thumb": {
+    "emoji": "🏢",
+    "bg": "linear-gradient(135deg,#3b82f6,#8b5cf6)"
+  }
+ },
+ {
+  "id": "234playergame",
+  "title": "2 3 4 Player Games",
+  "category": "arcade",
+  "tags": [ "multijoueur", "mini-jeux", "2-joueurs" ],
+  "url": "games/234playergame/index.html",
+  "popular": true,
+  "new": false,
+  "thumb": {
+    "emoji": "🎮",
+    "bg": "linear-gradient(135deg,#ec4899,#8b5cf6)"
+  }
  }
 ]
