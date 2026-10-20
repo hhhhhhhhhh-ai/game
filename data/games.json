@@ -813,5 +813,18 @@
     "emoji": "🍬",
     "bg": "linear-gradient(135deg,#ec4899,#f43f5e)"
   }
+ },
+ {
+  "id": "drivemadwinter",
+  "title": "Drive Mad Winter",
+  "category": "voiture",
+  "tags": [ "course", "adresse", "physique" ],
+  "url": "games/drivemadwinter/index.html",
+  "popular": false,
+  "new": true,
+  "thumb": {
+    "emoji": "☃️",
+    "bg": "linear-gradient(135deg,#ec4899,#f43f5e)"
+  }
  }
 ]
